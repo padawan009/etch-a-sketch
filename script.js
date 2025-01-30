@@ -8,9 +8,9 @@ let gridSize = 16
 let currentColor = 'black'   
 let gridBorder = '1px solid rgb(211, 217, 222)'
 
-newGrid(gridSize)
+createGrid(gridSize)
 
-function newGrid(gridSize) {
+function createGrid(gridSize) {
     gridContainer.innerHTML = ''
     gridContainer.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`
     gridContainer.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`
@@ -63,12 +63,12 @@ function colorChange(gridDiv) {
     }
 
 blackButton.addEventListener('click', () => {
-    newGrid(gridSize)
+    createGrid(gridSize)
     currentColor = 'black'
 })
 
 rainbowButton.addEventListener('click', () => {
-    newGrid(gridSize)
+    createGrid(gridSize)
     currentColor = 'rainbow'
 })
 
@@ -77,7 +77,7 @@ eraseButton.addEventListener('click', () => {
 })
 
 clearButton.addEventListener('click', () => {
-    newGrid(gridSize)
+    createGrid(gridSize)
 })
 
 changeSizeButton.addEventListener('click', () => {
@@ -90,5 +90,5 @@ changeSizeButton.addEventListener('click', () => {
     else if (isNaN(gridSize))
         alert('Введите числовое значение')
     else
-        newGrid(gridSize)  
+        createGrid(gridSize)  
 })
