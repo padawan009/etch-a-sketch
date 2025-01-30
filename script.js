@@ -4,66 +4,63 @@ const rainbowButton = document.querySelector('#rainbow-button')
 const eraseButton = document.querySelector('#erase-button')
 const clearButton = document.querySelector('#clear-button')
 const changeSizeButton = document.querySelector('#change-size-button')
-let newSize = 16
+let gridSize = 16
 let gridColor = 'black'   
+let gridBorder = '1px solid rgb(211, 217, 222)'
 
+newGrid(gridSize)
 
-document.addEventListener("DOMContentLoaded", () => {
+function newGrid(gridSize) {
     gridContainer.innerHTML = ''
-    newGrid(newSize)
-});
-
-
-let gridDiv = 'white'
-
-function newGrid(newSize) {
-    gridContainer.innerHTML = ''
-    gridContainer.style.gridTemplateColumns = `repeat(${newSize}, 1fr)`
-    gridContainer.style.gridTemplateRows = `repeat(${newSize}, 1fr)`
+    gridContainer.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`
+    gridContainer.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`
  
     let i = 0
 
-    while (i < newSize * newSize) {
-        let gridDiv = document.createElement('gridDiv')
-        gridDiv.style.border = '1px solid grey'
+    while (i < gridSize * gridSize) {
+        let gridDiv = document.createElement('div')
+        gridDiv.style.border = gridBorder
         gridDiv.style.backgroundColor = 'white'
         gridContainer.appendChild(gridDiv)
-         gridDiv.addEventListener('mouseenter', () => {
-            if (gridColor === 'black') {
-                gridDiv.style.backgroundColor = 'black'
-            }
-            else if (gridColor === 'rainbow') {
-                let rainbowColor = `rgb(${Math.floor(Math.random() * 256)}, 
-                ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`
-                gridDiv.style.backgroundColor = rainbowColor
-                
-                gridDiv.style.opacity = 0.1
-                opacity += 0.1
-                // while (gridDiv.style.opacity <= 1) {
-                    
-                //     gridDiv.style.opacity += 0.1
-                // }
-                
-            } 
-            else if (gridColor === 'erase') {
-                gridDiv.style.backgroundColor = 'white'
-            }
-
-        })
+        gridDiv.addEventListener('mouseenter', () => {
+            colorChange(gridDiv)
+            let gridOpacity = Number(gridDiv.style.opacity)
+            // console.log(typeof gridDiv.style.opacity, gridDiv.style.opacity)
+            // console.log(typeof gridOpacity, gridOpacity)
+            if (gridOpacity < 1) {
+                gridDiv.style.opacity = gridOpacity + 0.1;
+            }  
+        });
         i++
-    }
-    
-    
+    } 
 }
 
+function colorChange(gridDiv) {
+    if (gridColor === 'black') {
+        gridDiv.style.backgroundColor = 'black'
+        gridDiv.style.border = 'none'
+        }
+    else if (gridColor === 'rainbow') {
+        let rainbowColor = `rgb(${Math.floor(Math.random() * 256)}, 
+        ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)})`
+
+        gridDiv.style.backgroundColor = rainbowColor
+        gridDiv.style.border = 'none'       
+        } 
+    else if (gridColor === 'erase') {
+        gridDiv.style.backgroundColor = 'white'
+        gridDiv.style.border = gridBorder
+        gridDiv.style.opacity = 1
+        }
+    }
 
 blackButton.addEventListener('click', () => {
-    newGrid(newSize)
+    newGrid(gridSize)
     gridColor = 'black'
 })
 
 rainbowButton.addEventListener('click', () => {
-    newGrid(newSize)
+    newGrid(gridSize)
     gridColor = 'rainbow'
 })
 
@@ -71,15 +68,17 @@ eraseButton.addEventListener('click', () => {
     gridColor = 'erase'
 })
 
-
 clearButton.addEventListener('click', () => {
-    newGrid(newSize)
+    newGrid(gridSize)
 })
 
 changeSizeButton.addEventListener('click', () => {
-    newSize = parseInt(prompt('Введите размер сетки: '))
-    if (newSize > 100)
+    gridSize = parseInt(prompt('Введите размер сетки: '))
+    console.log(gridSize)
+    if (gridSize > 100)
         alert('Введите значение меньше 100!')
+    else if (isNaN(gridSize))
+        alert('Введите числовое значение')
     else
-        newGrid(newSize)
+        newGrid(gridSize)  
 })
